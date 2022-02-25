@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "884380188758",
+    "project_id": "libtech-e60d3",
+    "storage_bucket": "libtech-e60d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884380188758:android:20144ebcec63cdd585bbf7",
+        "android_client_info": {
+          "package_name": "com.wetwo.Libtech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884380188758-8qj7nf8jgk0v50008ja720pb46o4t6tu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9JYUhYtBrc8_s3nZ5e7NH5RTIOW9RsCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884380188758-8qj7nf8jgk0v50008ja720pb46o4t6tu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
