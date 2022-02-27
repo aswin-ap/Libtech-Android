@@ -3,8 +3,8 @@
     package="com.wetwo.librarymanagment">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/> 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryManagment">
         <activity
-            android:name=".ui.AddBookActivity"
+            android:name=".ui.book.ListBooksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.book.AddBookActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SignUpActivity"

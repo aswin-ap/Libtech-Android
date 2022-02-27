@@ -1,16 +1,11 @@
 package com.wetwo.librarymanagment.ui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.view.View;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
