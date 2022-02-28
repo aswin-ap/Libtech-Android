@@ -11,6 +11,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class AddBookActivity extends BaseActivity {
         // Assign FirebaseDatabase instance with root database name.
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
 
-// Assigning Id to ProgressDialog.
+        // Assigning Id to ProgressDialog.
         progressDialog = new ProgressDialog(AddBookActivity.this);
 
 
@@ -146,6 +147,11 @@ public class AddBookActivity extends BaseActivity {
             //Getting the image from the device and setting the image to imageView
             imageUri = data.getData();
             binding.BookImage.setImageURI(imageUri);
+
+            File file= new File(imageUri.getPath());
+            Log.e("img name",""+imageUri);
+            Log.e("img name",""+file.getName());
+
         }
     }
 
@@ -177,12 +183,14 @@ public class AddBookActivity extends BaseActivity {
 
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
+                            Log.e("img getName",""+taskSnapshot.getMetadata().getName());
+                            Log.e("img getName",""+taskSnapshot.getMetadata().getPath());
 
                             // Showing toast message after done uploading.
                             Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
 
                             @SuppressWarnings("VisibleForTests")
-                            ImageUploadInfo imageUploadInfo = new ImageUploadInfo(tempBookSub,temAuther,TempImageName, taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                            ImageUploadInfo imageUploadInfo = new ImageUploadInfo(tempBookSub,temAuther,TempImageName,taskSnapshot.getMetadata().getName(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
 
                             // Getting image upload ID.
                             String ImageUploadId = databaseReference.push().getKey();
@@ -190,6 +198,7 @@ public class AddBookActivity extends BaseActivity {
                             // Adding image upload id s child element into databaseReference.
                             assert ImageUploadId != null;
                             databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
+                            Log.e("img getName","finisg");
                             finish();
                         }
                     })

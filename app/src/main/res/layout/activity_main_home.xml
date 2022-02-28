@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AdminHomeActivity">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="chbdcvaildkcv"/>
+    tools:context=".ui.MainHomeActivity">
+
 </androidx.constraintlayout.widget.ConstraintLayout>

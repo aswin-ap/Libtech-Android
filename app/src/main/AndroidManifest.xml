@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryManagment">
         <activity
+            android:name=".ui.MainHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.book.ListBooksActivity"
             android:exported="false" />
         <activity
@@ -21,9 +27,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.AdminHomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SplashActivity"

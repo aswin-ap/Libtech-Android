@@ -4,7 +4,7 @@ public class ImageUploadInfo {
     public String bookSub;
     public String bookAuthor;
     public String bookName;
-
+    public String imageName;
     public String imageURL;
 
 
@@ -12,11 +12,12 @@ public class ImageUploadInfo {
 
     }
 
-    public ImageUploadInfo(String bookSub,String bookAuthor,String bookName, String url) {
+    public ImageUploadInfo(String bookSub,String bookAuthor,String bookName,String imageName ,String url) {
 
         this.bookSub =bookSub;
         this.bookAuthor=bookAuthor;
         this.bookName = bookName;
+        this.imageName =imageName;
         this.imageURL= url;
     }
 
@@ -52,5 +53,11 @@ public class ImageUploadInfo {
         return imageURL;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
 
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 }

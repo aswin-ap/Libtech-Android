@@ -1,14 +1,19 @@
 package com.wetwo.librarymanagment.ui.book;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.adapter.bookListingAdapter;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
@@ -55,8 +61,9 @@ public class ListBooksActivity extends AppCompatActivity {
 
         // Assign FirebaseDatabase instance with root database name.
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
-//        getAllBooks();
-        getgg();
+        list.clear();
+        getAllBooks();
+
         btnClick();
     }
 
@@ -72,42 +79,38 @@ public class ListBooksActivity extends AppCompatActivity {
             }
         );
     }
-    private void getgg(){
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference uidRef = rootRef.child("Blog").child(uid);
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String uid = dataSnapshot.child("uid").getValue(String.class);
-                String title = dataSnapshot.child("title").getValue(String.class);
-                String timestamp = dataSnapshot.child("timestamp").getValue(String.class);
-                Log.d("TAG", uid + " / " + title  + " / " + timestamp);
+   private void getIm(String img_name){
+       StorageReference mImageStorage = FirebaseStorage.getInstance().getReference();
+       StorageReference ref = mImageStorage.child(Storage_Path)
+               .child(img_name);
 
-                for(DataSnapshot ds : dataSnapshot.child("url").getChildren()) {
-                    String url = ds.getValue(String.class);
-                    Log.d("TAG", url);
-                }
-            }
+       ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+           @Override
+           public void onComplete(@NonNull Task<Uri> task) {
+               if (task.isSuccessful()) {
+                   Uri downUri = task.getResult();
+                   String imageUrl = downUri.toString();
+                   Toast.makeText(ListBooksActivity.this, imageUrl , Toast.LENGTH_SHORT).show();
+               }else{
+                   Toast.makeText(ListBooksActivity.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
+               }
+           }
+       });
+   }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-        uidRef.addListenerForSingleValueEvent(valueEventListener);
-    }
 
-    private void getAllBooks() {
+        private void getAllBooks() {
 
         // Setting up Firebase image upload folder path in databaseReference.
         // The path is already defined in MainActivity.
-        databaseReference = FirebaseDatabase.getInstance().getReference(Storage_Path);
+        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
 
         // Adding Add Value Event Listener to databaseReference.
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
+                list.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);

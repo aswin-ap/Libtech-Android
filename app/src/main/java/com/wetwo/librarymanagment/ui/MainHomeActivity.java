@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.wetwo.librarymanagment.R;
 
-public class AdminHomeActivity extends AppCompatActivity {
+public class MainHomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.wetwo.librarymanagment.R.layout.activity_admin_home);
+        setContentView(R.layout.activity_main_home);
     }
 }

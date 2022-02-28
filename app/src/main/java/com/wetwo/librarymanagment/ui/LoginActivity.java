@@ -87,11 +87,22 @@ public class LoginActivity extends BaseActivity {
                                         sessionManager.setDocumentId(documentSnapshot.getId());
                                         sessionManager.setUserName(documentSnapshot.get("username").toString());
                                         sessionManager.setLogin(true);
-                                        Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        showToast(LoginActivity.this, "Login Successfully");
-                                        startActivity(intent);
-                                        finish();
+                                        if (sessionManager.getUserName().equals("demo")){
+                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            showToast(LoginActivity.this, "Login Successfully");
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else{
+                                            Intent intent = new Intent(LoginActivity.this, MainHomeActivity.class);
+
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            showToast(LoginActivity.this, "Login Successfully");
+                                            startActivity(intent);
+                                            finish();
+                                        }
+
                                     } else
                                         isMatch = false;
                                 }

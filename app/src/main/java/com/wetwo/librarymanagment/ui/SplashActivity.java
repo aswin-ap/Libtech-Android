@@ -28,8 +28,8 @@ public class SplashActivity extends BaseActivity {
 
                 if (sessionManager.isLoggedin()) {
                     Intent i = new Intent(SplashActivity.this,
-//                            AdminHomeActivity.class);
-                            ListBooksActivity.class);
+                            HomeActivity.class);
+
 
                     startActivity(i);
                 } else {
