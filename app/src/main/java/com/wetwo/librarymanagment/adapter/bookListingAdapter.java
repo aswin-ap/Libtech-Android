@@ -34,7 +34,6 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
 
     public bookListingAdapter(Context context, List<ImageUploadInfo> TempList) {
 
-            this.MainImageUploadInfoList.clear();
 
         this.MainImageUploadInfoList = TempList;
 

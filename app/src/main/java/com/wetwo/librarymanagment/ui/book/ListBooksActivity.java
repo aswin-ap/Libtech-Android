@@ -26,9 +26,11 @@ import com.google.firebase.storage.UploadTask;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.adapter.bookListingAdapter;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
+import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityAddBookBinding;
 import com.wetwo.librarymanagment.databinding.ActivityListBooksBinding;
 import com.wetwo.librarymanagment.ui.LoginActivity;
+import com.wetwo.librarymanagment.ui.MainHomeActivity;
 import com.wetwo.librarymanagment.ui.SplashActivity;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class ListBooksActivity extends AppCompatActivity {
     String Storage_Path = "library_book/";
     // Root Database Name for Firebase Database.
     String Database_Path = "All_Image_Uploads_Database";
-
+    private SessionManager sessionManager;
     // Creating StorageReference and DatabaseReference object.
     StorageReference storageReference;
     DatabaseReference databaseReference;
@@ -56,6 +58,19 @@ public class ListBooksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityListBooksBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        initUi();
+        btnClick();
+    }
+
+    private void initUi() {
+        sessionManager = new SessionManager(ListBooksActivity.this);
+         if(sessionManager.getUserName()=="admin"){
+             binding.btnAdd.setVisibility(View.VISIBLE);
+         }
+         else{
+             binding.btnAdd.setVisibility(View.GONE);
+         }
+
         // Assign FirebaseStorage instance to storageReference.
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -63,8 +78,6 @@ public class ListBooksActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
         list.clear();
         getAllBooks();
-
-        btnClick();
     }
 
     private void btnClick() {
