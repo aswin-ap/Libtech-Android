@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.adapter.bookListingAdapter;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
@@ -36,7 +37,7 @@ import com.wetwo.librarymanagment.ui.SplashActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListBooksActivity extends AppCompatActivity {
+public class ListBooksActivity extends BaseActivity {
     private ActivityListBooksBinding binding;
     String Storage_Path = "library_book/";
     // Root Database Name for Firebase Database.
@@ -50,7 +51,7 @@ public class ListBooksActivity extends AppCompatActivity {
     // Creating List of ImageUploadInfo class.
     List<ImageUploadInfo> list = new ArrayList();
     // Creating RecyclerView.Adapter.
-    RecyclerView.Adapter adapter ;
+    RecyclerView.Adapter adapter;
 
 
     @Override
@@ -63,13 +64,15 @@ public class ListBooksActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+
+        showLoading(this);
         sessionManager = new SessionManager(ListBooksActivity.this);
-         if(sessionManager.getUserName()=="admin"){
-             binding.btnAdd.setVisibility(View.VISIBLE);
-         }
-         else{
-             binding.btnAdd.setVisibility(View.GONE);
-         }
+        Log.e("sees name", sessionManager.getUserName());
+        if (sessionManager.getUserName().equals("admin")) {
+            binding.btnAdd.setVisibility(View.VISIBLE);
+        } else {
+            binding.btnAdd.setVisibility(View.GONE);
+        }
 
         // Assign FirebaseStorage instance to storageReference.
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -82,38 +85,39 @@ public class ListBooksActivity extends AppCompatActivity {
 
     private void btnClick() {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(ListBooksActivity.this,
-                        AddBookActivity.class);
-
-                startActivity(i);
-            }
-            }
+          @Override
+           public void onClick(View view) {
+           Log.e("list size", String.valueOf(list.size()));
+            Intent i = new Intent(ListBooksActivity.this,
+             AddBookActivity.class);
+                   i.putExtra("id", list.size());
+               startActivity(i);
+                   }
+                          }
         );
     }
 
-   private void getIm(String img_name){
-       StorageReference mImageStorage = FirebaseStorage.getInstance().getReference();
-       StorageReference ref = mImageStorage.child(Storage_Path)
-               .child(img_name);
+    private void getIm(String img_name) {
+        StorageReference mImageStorage = FirebaseStorage.getInstance().getReference();
+        StorageReference ref = mImageStorage.child(Storage_Path)
+                .child(img_name);
 
-       ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-           @Override
-           public void onComplete(@NonNull Task<Uri> task) {
-               if (task.isSuccessful()) {
-                   Uri downUri = task.getResult();
-                   String imageUrl = downUri.toString();
-                   Toast.makeText(ListBooksActivity.this, imageUrl , Toast.LENGTH_SHORT).show();
-               }else{
-                   Toast.makeText(ListBooksActivity.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
-               }
-           }
-       });
-   }
+        ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downUri = task.getResult();
+                    String imageUrl = downUri.toString();
+                    Toast.makeText(ListBooksActivity.this, imageUrl, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ListBooksActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
 
-        private void getAllBooks() {
+    private void getAllBooks() {
 
         // Setting up Firebase image upload folder path in databaseReference.
         // The path is already defined in MainActivity.
@@ -135,7 +139,7 @@ public class ListBooksActivity extends AppCompatActivity {
                 adapter = new bookListingAdapter(getApplicationContext(), list);
 
                 binding.recyclerView.setAdapter(adapter);
-
+                hideLoading();
                 // Hiding the progress dialog.
 //                progressDialog.dismiss();
             }

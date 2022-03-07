@@ -48,12 +48,15 @@ public class AddBookActivity extends BaseActivity {
     ProgressDialog progressDialog;
     // Creating List of ImageUploadInfo class.
     List<ImageUploadInfo> list = new ArrayList();
+    int size = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddBookBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        size = getIntent().getIntExtra("id",0);
+        Log.e("id", String.valueOf(size));
         // Assign FirebaseStorage instance to storageReference.
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -107,7 +110,7 @@ public class AddBookActivity extends BaseActivity {
                             list.add(imageUploadInfo);
                         }
 
-                       Log.e("itt",""+ list);
+                        Log.e("itt", "" + list);
 
 
                         // Hiding the progress dialog.
@@ -116,7 +119,7 @@ public class AddBookActivity extends BaseActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.e("itt",""+ databaseError);
+                        Log.e("itt", "" + databaseError);
                         // Hiding the progress dialog.
                         progressDialog.dismiss();
 
@@ -148,9 +151,9 @@ public class AddBookActivity extends BaseActivity {
             imageUri = data.getData();
             binding.BookImage.setImageURI(imageUri);
 
-            File file= new File(imageUri.getPath());
-            Log.e("img name",""+imageUri);
-            Log.e("img name",""+file.getName());
+            File file = new File(imageUri.getPath());
+            Log.e("img name", "" + imageUri);
+            Log.e("img name", "" + file.getName());
 
         }
     }
@@ -183,14 +186,16 @@ public class AddBookActivity extends BaseActivity {
 
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
-                            Log.e("img getName",""+taskSnapshot.getMetadata().getName());
-                            Log.e("img getName",""+taskSnapshot.getMetadata().getPath());
+                            Log.e("img getName", "" + taskSnapshot.getMetadata().getName());
+                            Log.e("img getName", "" + taskSnapshot.getMetadata().getPath());
 
                             // Showing toast message after done uploading.
                             Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
 
                             @SuppressWarnings("VisibleForTests")
-                            ImageUploadInfo imageUploadInfo = new ImageUploadInfo(tempBookSub,temAuther,TempImageName,taskSnapshot.getMetadata().getName(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                            ImageUploadInfo imageUploadInfo = new ImageUploadInfo
+                                    (size + 1,tempBookSub, temAuther, TempImageName, taskSnapshot.getMetadata().getName(),
+                                            taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), true, "");
 
                             // Getting image upload ID.
                             String ImageUploadId = databaseReference.push().getKey();
@@ -198,7 +203,7 @@ public class AddBookActivity extends BaseActivity {
                             // Adding image upload id s child element into databaseReference.
                             assert ImageUploadId != null;
                             databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
-                            Log.e("img getName","finisg");
+                            Log.e("img getName", "finisg");
                             finish();
                         }
                     })

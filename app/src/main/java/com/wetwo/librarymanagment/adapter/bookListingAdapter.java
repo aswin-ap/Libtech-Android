@@ -1,6 +1,7 @@
 package com.wetwo.librarymanagment.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.wetwo.librarymanagment.R;
@@ -60,6 +62,14 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
         holder.imageNameTextView.setText(UploadInfo.getBookName());
         holder.txtBookAuther.setText("Author : " + UploadInfo.getBookAuthor());
         holder.txtBookType.setText("Category : " + UploadInfo.getBookSub());
+        if(UploadInfo.isBookAvailable){
+            holder.bookAvailable.setText("Book is Available");
+            holder.bookAvailable.setTextColor(Color.BLUE);
+        }
+        else{
+            holder.bookAvailable.setText("Book is not  Available");
+            holder.bookAvailable.setTextColor(Color.RED);
+        }
 
 
         StorageReference mImageStorage = FirebaseStorage.getInstance().getReference();
@@ -96,7 +106,7 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
-        public TextView imageNameTextView, txtBookAuther, txtBookType;
+        public TextView imageNameTextView, txtBookAuther, txtBookType,bookAvailable;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -106,6 +116,7 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
             imageNameTextView = (TextView) itemView.findViewById(R.id.ImageNameTextView);
             txtBookAuther = (TextView) itemView.findViewById(R.id.txt_author);
             txtBookType = (TextView) itemView.findViewById(R.id.txt_category);
+            bookAvailable = (TextView) itemView.findViewById(R.id.txt_available);
         }
     }
 }

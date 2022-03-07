@@ -87,7 +87,8 @@ public class LoginActivity extends BaseActivity {
                                         sessionManager.setDocumentId(documentSnapshot.getId());
                                         sessionManager.setUserName(documentSnapshot.get("username").toString());
                                         sessionManager.setLogin(true);
-                                        if (sessionManager.getUserName().equals("demo")){
+                                        Log.e("uname",documentSnapshot.get("username").toString());
+                                        if (sessionManager.getUserName().equals("admin")){
                                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             showToast(LoginActivity.this, "Login Successfully");

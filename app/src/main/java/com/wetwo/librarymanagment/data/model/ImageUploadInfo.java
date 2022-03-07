@@ -1,24 +1,53 @@
 package com.wetwo.librarymanagment.data.model;
 
 public class ImageUploadInfo {
+    public int bookID;
     public String bookSub;
     public String bookAuthor;
     public String bookName;
     public String imageName;
     public String imageURL;
+    public Boolean isBookAvailable;
+    public String bookBuyer;
 
 
     public ImageUploadInfo() {
 
     }
 
-    public ImageUploadInfo(String bookSub,String bookAuthor,String bookName,String imageName ,String url) {
+    public Boolean getBookAvailable() {
+        return isBookAvailable;
+    }
 
-        this.bookSub =bookSub;
-        this.bookAuthor=bookAuthor;
+    public void setBookAvailable(Boolean bookAvailable) {
+        isBookAvailable = bookAvailable;
+    }
+
+    public String getBookBuyer() {
+        return bookBuyer;
+    }
+
+    public void setBookBuyer(String bookBuyer) {
+        this.bookBuyer = bookBuyer;
+    }
+
+    public int getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
+    }
+
+    public ImageUploadInfo(int bookID, String bookSub, String bookAuthor, String bookName, String imageName, String url, Boolean isBookAvailable, String bookBuyer) {
+        this.bookID = bookID;
+        this.bookSub = bookSub;
+        this.bookAuthor = bookAuthor;
         this.bookName = bookName;
-        this.imageName =imageName;
-        this.imageURL= url;
+        this.imageName = imageName;
+        this.imageURL = url;
+        this.isBookAvailable = isBookAvailable;
+        this.bookBuyer = bookBuyer;
     }
 
     public String getBookSub() {
