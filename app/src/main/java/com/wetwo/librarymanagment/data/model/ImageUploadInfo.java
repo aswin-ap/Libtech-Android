@@ -1,6 +1,7 @@
 package com.wetwo.librarymanagment.data.model;
 
 public class ImageUploadInfo {
+    public String firebaseId;
     public int bookID;
     public String bookSub;
     public String bookAuthor;
@@ -13,6 +14,14 @@ public class ImageUploadInfo {
 
     public ImageUploadInfo() {
 
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 
     public Boolean getBookAvailable() {
@@ -37,6 +46,18 @@ public class ImageUploadInfo {
 
     public void setBookID(int bookID) {
         this.bookID = bookID;
+    }
+
+    public ImageUploadInfo(String firebaseId,int bookID, String bookSub, String bookAuthor, String bookName, String imageName, String url, Boolean isBookAvailable, String bookBuyer) {
+        this.bookID = bookID;
+        this.bookSub = bookSub;
+        this.bookAuthor = bookAuthor;
+        this.bookName = bookName;
+        this.imageName = imageName;
+        this.imageURL = url;
+        this.isBookAvailable = isBookAvailable;
+        this.bookBuyer = bookBuyer;
+        this.firebaseId = firebaseId;
     }
 
     public ImageUploadInfo(int bookID, String bookSub, String bookAuthor, String bookName, String imageName, String url, Boolean isBookAvailable, String bookBuyer) {

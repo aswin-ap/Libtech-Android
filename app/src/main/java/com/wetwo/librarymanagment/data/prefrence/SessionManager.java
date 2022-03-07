@@ -45,11 +45,6 @@ public class SessionManager {
         editor.apply();
     }
 
-    public void setCurrentRestaurant(String name) {
-        editor.putString(RESTAURANT, name);
-        editor.apply();
-    }
-
     public void setDocumentId(String id) {
         editor.putString(DOCUMENT_ID, id);
         editor.apply();

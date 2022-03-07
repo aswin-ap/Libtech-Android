@@ -1,9 +1,5 @@
 package com.wetwo.librarymanagment.ui.book;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,32 +8,40 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.adapter.bookListingAdapter;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
+import com.wetwo.librarymanagment.data.model.RequestModel;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
-import com.wetwo.librarymanagment.databinding.ActivityAddBookBinding;
 import com.wetwo.librarymanagment.databinding.ActivityListBooksBinding;
-import com.wetwo.librarymanagment.ui.LoginActivity;
-import com.wetwo.librarymanagment.ui.MainHomeActivity;
-import com.wetwo.librarymanagment.ui.SplashActivity;
+import com.wetwo.librarymanagment.utils.NetworkManager;
+import com.wetwo.librarymanagment.utils.OnClickListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListBooksActivity extends BaseActivity {
+public class ListBooksActivity extends BaseActivity implements OnClickListener {
     private ActivityListBooksBinding binding;
     String Storage_Path = "library_book/";
     // Root Database Name for Firebase Database.
@@ -46,12 +50,15 @@ public class ListBooksActivity extends BaseActivity {
     // Creating StorageReference and DatabaseReference object.
     StorageReference storageReference;
     DatabaseReference databaseReference;
+    private final FirebaseFirestore fb = getFireStoreInstance();
 
     ProgressDialog progressDialog;
     // Creating List of ImageUploadInfo class.
     List<ImageUploadInfo> list = new ArrayList();
     // Creating RecyclerView.Adapter.
     RecyclerView.Adapter adapter;
+
+    Boolean adminStatus;
 
 
     @Override
@@ -70,8 +77,11 @@ public class ListBooksActivity extends BaseActivity {
         Log.e("sees name", sessionManager.getUserName());
         if (sessionManager.getUserName().equals("admin")) {
             binding.btnAdd.setVisibility(View.VISIBLE);
+            adminStatus = true;
         } else {
             binding.btnAdd.setVisibility(View.GONE);
+            adminStatus = false;
+
         }
 
         // Assign FirebaseStorage instance to storageReference.
@@ -85,15 +95,15 @@ public class ListBooksActivity extends BaseActivity {
 
     private void btnClick() {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-          @Override
-           public void onClick(View view) {
-           Log.e("list size", String.valueOf(list.size()));
-            Intent i = new Intent(ListBooksActivity.this,
-             AddBookActivity.class);
-                   i.putExtra("id", list.size());
-               startActivity(i);
-                   }
-                          }
+                                              @Override
+                                              public void onClick(View view) {
+                                                  Log.e("list size", String.valueOf(list.size()));
+                                                  Intent i = new Intent(ListBooksActivity.this,
+                                                          AddBookActivity.class);
+                                                  i.putExtra("id", list.size());
+                                                  startActivity(i);
+                                              }
+                                          }
         );
     }
 
@@ -131,15 +141,12 @@ public class ListBooksActivity extends BaseActivity {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
-
+                    imageUploadInfo.setFirebaseId(postSnapshot.getKey());
                     list.add(imageUploadInfo);
                 }
 
                 Log.e("itt", "" + list);
-                adapter = new bookListingAdapter(getApplicationContext(), list);
-
-                binding.recyclerView.setAdapter(adapter);
-                hideLoading();
+                getRequestedBooks();
                 // Hiding the progress dialog.
 //                progressDialog.dismiss();
             }
@@ -152,5 +159,104 @@ public class ListBooksActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void compareBooks(List<RequestModel> requestList) {
+        for (int i = 0; i < this.list.size(); i++) {
+            for (int j = 0; j < requestList.size(); j++) {
+                if (sessionManager.getUserId().equals(requestList.get(j).getUserId())) {
+                    list.remove(i);
+                }
+            }
+        }
+        if (list.size() != 0) {
+            hideLoading();
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.ivNoData.setVisibility(View.GONE);
+            adapter = new bookListingAdapter(getApplicationContext(), list, adminStatus, ListBooksActivity.this);
+            binding.recyclerView.setAdapter(adapter);
+        } else {
+            hideLoading();
+            binding.recyclerView.setVisibility(View.GONE);
+            binding.ivNoData.setVisibility(View.VISIBLE);
+            showToast(ListBooksActivity.this, "No books found!!!");
+        }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        ImageUploadInfo uploadInfo = list.get(position);
+        uploadToRequest(uploadInfo);
+    }
+
+    /**
+     * This method uploads the requested book to 'Request' table in firebase
+     *
+     * @param uploadInfo
+     */
+    private void uploadToRequest(ImageUploadInfo uploadInfo) {
+        if (NetworkManager.isNetworkAvailable(ListBooksActivity.this)) {
+            showLoading(this);
+
+            Map<String, Object> user = new HashMap<>();
+            user.put("date", currentDate());
+            user.put("userId", sessionManager.getUserId());
+            user.put("bookId", uploadInfo.getFirebaseId());
+
+            FirebaseFirestore fireStoreInstance = getFireStoreInstance();
+            fireStoreInstance.collection("Request")
+                    .add(user)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            hideLoading();
+                            showToast(ListBooksActivity.this, "Requested Successfully");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    hideLoading();
+                    showToast(ListBooksActivity.this, getString(R.string.error));
+                }
+            });
+        } else {
+            binding.containerNoInternet.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getRequestedBooks() {
+        List<RequestModel> requestModelList = new ArrayList();
+        if (NetworkManager.isNetworkAvailable(ListBooksActivity.this)) {
+            binding.containerNoInternet.setVisibility(View.GONE);
+            fb.collection("Request")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    RequestModel model = new RequestModel();
+                                    model.setBookId(documentSnapshot.get("bookId").toString());
+                                    model.setDate(documentSnapshot.get("date").toString());
+                                    model.setUserId(documentSnapshot.get("userId").toString());
+
+                                    requestModelList.add(model);
+                                }
+
+                                compareBooks(requestModelList);
+
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("exception in request", String.valueOf(e));
+                    showToast(ListBooksActivity.this, getString(R.string.error));
+                }
+            });
+        } else
+            binding.containerNoInternet.setVisibility(View.VISIBLE);
+        // showSnackBar(binding.getRoot(), getString(R.string.check_internet));
+
     }
 }

@@ -7,8 +7,6 @@ import android.os.Handler;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
-import com.wetwo.librarymanagment.ui.book.AddBookActivity;
-import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 
 public class SplashActivity extends BaseActivity {
 
@@ -27,10 +25,14 @@ public class SplashActivity extends BaseActivity {
             public void run() {
 
                 if (sessionManager.isLoggedin()) {
-                    Intent i = new Intent(SplashActivity.this,
-                            HomeActivity.class);
-
-
+                    Intent i;
+                    if (sessionManager.getUserName().equals("admin")) {
+                        i = new Intent(SplashActivity.this,
+                                HomeActivity.class);
+                    } else {
+                        i = new Intent(SplashActivity.this,
+                                MainHomeActivity.class);
+                    }
                     startActivity(i);
                 } else {
                     Intent i = new Intent(SplashActivity.this,

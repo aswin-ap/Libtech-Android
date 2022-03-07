@@ -11,10 +11,6 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -32,6 +28,10 @@ import com.google.firebase.storage.UploadTask;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
 import com.wetwo.librarymanagment.databinding.ActivityAddBookBinding;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddBookActivity extends BaseActivity {
     private ActivityAddBookBinding binding;
@@ -55,7 +55,7 @@ public class AddBookActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddBookBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        size = getIntent().getIntExtra("id",0);
+        size = getIntent().getIntExtra("id", 0);
         Log.e("id", String.valueOf(size));
         // Assign FirebaseStorage instance to storageReference.
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -63,7 +63,7 @@ public class AddBookActivity extends BaseActivity {
         // Assign FirebaseDatabase instance with root database name.
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
 
-        // Assigning Id to ProgressDialog.
+        // Assigning Id to ProgressDialog.AddBookBtn
         progressDialog = new ProgressDialog(AddBookActivity.this);
 
 
@@ -194,7 +194,7 @@ public class AddBookActivity extends BaseActivity {
 
                             @SuppressWarnings("VisibleForTests")
                             ImageUploadInfo imageUploadInfo = new ImageUploadInfo
-                                    (size + 1,tempBookSub, temAuther, TempImageName, taskSnapshot.getMetadata().getName(),
+                                    (size + 1, tempBookSub, temAuther, TempImageName, taskSnapshot.getMetadata().getName(),
                                             taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), true, "");
 
                             // Getting image upload ID.
