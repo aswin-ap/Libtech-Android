@@ -10,7 +10,16 @@ public class ImageUploadInfo {
     public String imageURL;
     public Boolean isBookAvailable;
     public String bookBuyer;
+    public Boolean isRequest;
 
+
+    public Boolean getRequest() {
+        return isRequest;
+    }
+
+    public void setRequest(Boolean request) {
+        isRequest = request;
+    }
 
     public ImageUploadInfo() {
 

@@ -1,7 +1,6 @@
 package com.wetwo.librarymanagment.ui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
-import com.wetwo.librarymanagment.databinding.ActivityLoginBinding;
 import com.wetwo.librarymanagment.databinding.ActivitySignUpBinding;
+import com.wetwo.librarymanagment.ui.user.MainHomeActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.Validation;
 

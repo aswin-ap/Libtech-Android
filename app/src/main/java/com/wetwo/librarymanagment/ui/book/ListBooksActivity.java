@@ -95,15 +95,15 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
 
     private void btnClick() {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View view) {
-                                                  Log.e("list size", String.valueOf(list.size()));
-                                                  Intent i = new Intent(ListBooksActivity.this,
-                                                          AddBookActivity.class);
-                                                  i.putExtra("id", list.size());
-                                                  startActivity(i);
-                                              }
-                                          }
+            @Override
+            public void onClick(View view) {
+             Log.e("list size", String.valueOf(list.size()));
+               Intent i = new Intent(ListBooksActivity.this,
+                           AddBookActivity.class);
+                     i.putExtra("id", list.size());
+                     startActivity(i);
+                   }
+                   }
         );
     }
 
@@ -142,6 +142,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
 
                     ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
                     imageUploadInfo.setFirebaseId(postSnapshot.getKey());
+                    imageUploadInfo.setRequest(false);
                     list.add(imageUploadInfo);
                 }
 
@@ -164,8 +165,9 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
     private void compareBooks(List<RequestModel> requestList) {
         for (int i = 0; i < this.list.size(); i++) {
             for (int j = 0; j < requestList.size(); j++) {
-                if (sessionManager.getUserId().equals(requestList.get(j).getUserId())) {
-                    list.remove(i);
+                if ( list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
+
+                    list.get(i).setRequest(true);
                 }
             }
         }
@@ -202,6 +204,10 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
             user.put("date", currentDate());
             user.put("userId", sessionManager.getUserId());
             user.put("bookId", uploadInfo.getFirebaseId());
+            user.put("bookName", uploadInfo.getBookName());
+            user.put("userName", sessionManager.getUserName());
+            user.put("bookIdR", uploadInfo.getBookID());
+
 
             FirebaseFirestore fireStoreInstance = getFireStoreInstance();
             fireStoreInstance.collection("Request")
@@ -211,6 +217,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
                         public void onSuccess(DocumentReference documentReference) {
                             hideLoading();
                             showToast(ListBooksActivity.this, "Requested Successfully");
+                            getAllBooks();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override

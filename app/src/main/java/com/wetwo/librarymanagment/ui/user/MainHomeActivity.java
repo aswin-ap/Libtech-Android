@@ -1,4 +1,4 @@
-package com.wetwo.librarymanagment.ui;
+package com.wetwo.librarymanagment.ui.user;
 
 
 import android.content.DialogInterface;
@@ -10,6 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityMainHomeBinding;
+import com.wetwo.librarymanagment.ui.LoginActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 
 public class MainHomeActivity extends BaseActivity {
@@ -30,6 +31,11 @@ public class MainHomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainHomeActivity.this, ListBooksActivity.class));
+            }});
+        binding.cardMyreq.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainHomeActivity.this, MyrequestActivity.class));
             }});
 
         binding.btnLogout.setOnClickListener(new View.OnClickListener(){

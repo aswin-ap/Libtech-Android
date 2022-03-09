@@ -7,6 +7,8 @@ import android.os.Handler;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
+import com.wetwo.librarymanagment.ui.admin.HomeActivity;
+import com.wetwo.librarymanagment.ui.user.MainHomeActivity;
 
 public class SplashActivity extends BaseActivity {
 

@@ -1,15 +1,14 @@
-package com.wetwo.librarymanagment.ui;
+package com.wetwo.librarymanagment.ui.admin;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
-import com.wetwo.librarymanagment.databinding.ActivityAddBookBinding;
 import com.wetwo.librarymanagment.databinding.ActivityHomeBinding;
+import com.wetwo.librarymanagment.ui.LoginActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 
 public class HomeActivity extends BaseActivity {

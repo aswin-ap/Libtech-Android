@@ -2,7 +2,6 @@ package com.wetwo.librarymanagment.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,19 +21,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
-import com.wetwo.librarymanagment.utils.OnClickListener;
+import com.wetwo.librarymanagment.utils.OnItemClickListener;
 
 import java.util.List;
 
-public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.ViewHolder> {
+public class myRequestAdapter extends RecyclerView.Adapter<myRequestAdapter.ViewHolder> {
 
     Context context;
     List<ImageUploadInfo> MainImageUploadInfoList;
     Boolean isAdmin;
-    OnClickListener listener;
+    OnItemClickListener listener;
 
 
-    public bookListingAdapter(Context context, List<ImageUploadInfo> TempList, Boolean isAdmin, OnClickListener listener) {
+    public myRequestAdapter(Context context, List<ImageUploadInfo> TempList, Boolean isAdmin, OnItemClickListener listener) {
 
 
         this.MainImageUploadInfoList = TempList;
@@ -47,20 +46,19 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public myRequestAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_listing_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_book_req_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
+        myRequestAdapter.ViewHolder viewHolder = new myRequestAdapter.ViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(myRequestAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ImageUploadInfo UploadInfo = MainImageUploadInfoList.get(position);
         Log.e("data isRequest ", "" + UploadInfo.isRequest);
-
 
 
         //set data to textview
@@ -72,7 +70,7 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
         holder.requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(position);
+                listener.onItemClick(position,UploadInfo.getBookBuyer());
             }
         });
 
@@ -98,19 +96,7 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
                 }
             }
         });
-        if(isAdmin){
-            holder.requestButton.setVisibility(View.GONE);
-            holder.alreadyRequestd.setVisibility(View.GONE);
-        }
-        else if(UploadInfo.isRequest ){
-            holder.requestButton.setVisibility(View.GONE);
-            holder.alreadyRequestd.setVisibility(View.VISIBLE);
-        }
 
-        else{
-            holder.requestButton.setVisibility(View.VISIBLE);
-            holder.alreadyRequestd.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -122,7 +108,7 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
-        public TextView imageNameTextView, txtBookAuther, txtBookType,alreadyRequestd;
+        public TextView imageNameTextView, txtBookAuther, txtBookType;
         public MaterialButton requestButton;
 
         public ViewHolder(View itemView) {
@@ -135,7 +121,6 @@ public class bookListingAdapter extends RecyclerView.Adapter<bookListingAdapter.
             txtBookType = (TextView) itemView.findViewById(R.id.txt_category);
 
             requestButton = (MaterialButton) itemView.findViewById(R.id.btn_request);
-            alreadyRequestd = (TextView) itemView.findViewById(R.id.txt_already_req);
         }
     }
 }

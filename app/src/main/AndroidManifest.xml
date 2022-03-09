@@ -14,13 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryManagment">
         <activity
+            android:name=".ui.user.MyrequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.book.BookDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainHomeActivity"
+            android:name=".ui.user.MainHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.admin.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.book.ListBooksActivity"
