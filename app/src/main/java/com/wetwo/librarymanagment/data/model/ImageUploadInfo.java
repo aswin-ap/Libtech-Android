@@ -11,7 +11,15 @@ public class ImageUploadInfo {
     public Boolean isBookAvailable;
     public String bookBuyer;
     public Boolean isRequest;
+    public String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Boolean getRequest() {
         return isRequest;

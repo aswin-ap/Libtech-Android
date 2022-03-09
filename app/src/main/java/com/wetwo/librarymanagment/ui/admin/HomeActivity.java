@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
@@ -14,32 +15,37 @@ import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 public class HomeActivity extends BaseActivity {
     private SessionManager sessionManager;
     private ActivityHomeBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding= ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         sessionManager = new SessionManager(HomeActivity.this);
         btnClick();
     }
 
+
     private void btnClick() {
-        binding.cardBook.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-           startActivity(new Intent(HomeActivity.this, ListBooksActivity.class));
-        }});
-        binding.cardStudents.setOnClickListener(new View.OnClickListener(){
+        binding.cardBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-            }});
-        binding.btnLogout.setOnClickListener(new View.OnClickListener(){
+                startActivity(new Intent(HomeActivity.this, ListBooksActivity.class));
+            }
+        });
+        binding.btnRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ListAllRequestActivity.class));
+            }
+        });
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onLogOutPress();
-            }});
+            }
+        });
 
     }
 

@@ -112,6 +112,7 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
                                     model.setDate(documentSnapshot.get("date").toString());
                                     model.setUserId(documentSnapshot.get("userId").toString());
                                     model.setDocID(documentSnapshot.getId());
+                                    model.setStatus(documentSnapshot.get("status").toString());
 
                                     requestModelList.add(model);
 
@@ -148,6 +149,7 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
                     if (list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
                         mNewList.add(this.list.get(i));
                         list.get(i).setBookBuyer(requestList.get(j).getDocID());
+                        list.get(i).setStatus(requestList.get(j).getStatus());
 //                        this.list.remove(i);
                     } else {
 //                    if(!list.get(i).getFirebaseId().equals(requestList.get(j).getDocID()))

@@ -95,15 +95,15 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
 
     private void btnClick() {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             Log.e("list size", String.valueOf(list.size()));
-               Intent i = new Intent(ListBooksActivity.this,
-                           AddBookActivity.class);
-                     i.putExtra("id", list.size());
-                     startActivity(i);
-                   }
-                   }
+                                              @Override
+                                              public void onClick(View view) {
+                                                  Log.e("list size", String.valueOf(list.size()));
+                                                  Intent i = new Intent(ListBooksActivity.this,
+                                                          AddBookActivity.class);
+                                                  i.putExtra("id", list.size());
+                                                  startActivity(i);
+                                              }
+                                          }
         );
     }
 
@@ -165,7 +165,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
     private void compareBooks(List<RequestModel> requestList) {
         for (int i = 0; i < this.list.size(); i++) {
             for (int j = 0; j < requestList.size(); j++) {
-                if ( list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
+                if (list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
 
                     list.get(i).setRequest(true);
                 }
@@ -207,6 +207,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
             user.put("bookName", uploadInfo.getBookName());
             user.put("userName", sessionManager.getUserName());
             user.put("bookIdR", uploadInfo.getBookID());
+            user.put("status", "request");
 
 
             FirebaseFirestore fireStoreInstance = getFireStoreInstance();

@@ -2,6 +2,7 @@ package com.wetwo.librarymanagment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -12,13 +13,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     // This is for showing the progress
     Dialog mLoadingDialog;
-
 
 
     public void showLoading(Context context) {
@@ -50,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    public  void showSnackBar(View snackBarView, String message) {
+    public void showSnackBar(View snackBarView, String message) {
         Snackbar sb;
         sb = Snackbar.make(snackBarView, message, Snackbar.LENGTH_SHORT);
         sb.show();
@@ -60,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return FirebaseFirestore.getInstance();
     }
 
-    public void showToast(Context context,String message) {
+    public void showToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
@@ -69,4 +70,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         String formattedDate = dateFormat.format(new Date()).toString();
         return formattedDate;
     }
+
+    public static String getCalculatedDate(String date, String dateFormat, int days) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat s = new SimpleDateFormat(dateFormat);
+        cal.add(Calendar.DAY_OF_YEAR, days);
+        try {
+            return s.format(new Date(cal.getTimeInMillis()));
+        } catch (Exception e) {
+            Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
+        }
+        return null;
+    }
+
 }

@@ -17,6 +17,9 @@
             android:name=".ui.user.MyrequestActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.admin.ListAllRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.book.BookDetailActivity"
             android:exported="false" />
         <activity

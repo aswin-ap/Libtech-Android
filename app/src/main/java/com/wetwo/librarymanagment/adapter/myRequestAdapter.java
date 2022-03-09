@@ -66,13 +66,21 @@ public class myRequestAdapter extends RecyclerView.Adapter<myRequestAdapter.View
         holder.txtBookAuther.setText("Author : " + UploadInfo.getBookAuthor());
         holder.txtBookType.setText("Category : " + UploadInfo.getBookSub());
 
+        if (UploadInfo.getStatus().equals("request")) {
+            holder.requestButton.setVisibility(View.VISIBLE);
+            holder.tvAlreadyRequested.setVisibility(View.GONE);
+        } else {
+            holder.requestButton.setVisibility(View.GONE);
+            holder.tvAlreadyRequested.setVisibility(View.VISIBLE);
+        }
 
         holder.requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(position,UploadInfo.getBookBuyer());
+                listener.onItemClick(position, UploadInfo.getBookBuyer());
             }
         });
+
 
         StorageReference mImageStorage = FirebaseStorage.getInstance().getReference();
         StorageReference ref = mImageStorage.child("library_book/")
@@ -108,7 +116,7 @@ public class myRequestAdapter extends RecyclerView.Adapter<myRequestAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
-        public TextView imageNameTextView, txtBookAuther, txtBookType;
+        public TextView imageNameTextView, txtBookAuther, txtBookType, tvAlreadyRequested;
         public MaterialButton requestButton;
 
         public ViewHolder(View itemView) {
@@ -121,6 +129,7 @@ public class myRequestAdapter extends RecyclerView.Adapter<myRequestAdapter.View
             txtBookType = (TextView) itemView.findViewById(R.id.txt_category);
 
             requestButton = (MaterialButton) itemView.findViewById(R.id.btn_request);
+            tvAlreadyRequested = (TextView) itemView.findViewById(R.id.tv_already_requested);
         }
     }
 }

@@ -5,9 +5,18 @@ public class RequestModel {
     private String date;
     private String userId;
     private String DocID;
-    private int bookIdR;
+    private Long bookIdR;
     private String bookName;
     private String userName;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public RequestModel(String bookId, String date, String userId) {
         this.bookId = bookId;
@@ -49,11 +58,11 @@ public class RequestModel {
         this.userId = userId;
     }
 
-    public int getBookIdR() {
+    public Long getBookIdR() {
         return bookIdR;
     }
 
-    public void setBookIdR(int bookIdR) {
+    public void setBookIdR(Long bookIdR) {
         this.bookIdR = bookIdR;
     }
 
