@@ -1,18 +1,19 @@
 package com.wetwo.librarymanagment.ui.admin;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -22,41 +23,45 @@ import com.wetwo.librarymanagment.adapter.AllRequestAdapter;
 import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
 import com.wetwo.librarymanagment.data.model.RequestModel;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
-import com.wetwo.librarymanagment.databinding.ActivityListAllRequestBinding;
+import com.wetwo.librarymanagment.databinding.ActivityListAllApprovedBinding;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
+import com.wetwo.librarymanagment.ui.user.MyrequestActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.OnClickListener;
 import com.wetwo.librarymanagment.utils.ReturnClick;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListAllRequestActivity extends BaseActivity implements OnClickListener, ReturnClick {
+public class ListAllApprovedActivity extends BaseActivity implements OnClickListener, ReturnClick {
+    private ActivityListAllApprovedBinding binding;
     private SessionManager sessionManager;
-    private ActivityListAllRequestBinding binding;
     List<RequestModel> requestModelList = new ArrayList();
     private final FirebaseFirestore fb = getFireStoreInstance();
     AllRequestAdapter adapter;
-    int mPosition=0;
-
+    RequestModel mModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityListAllRequestBinding.inflate(getLayoutInflater());
+
+        binding=ActivityListAllApprovedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        sessionManager = new SessionManager(ListAllRequestActivity.this);
+
+        sessionManager = new SessionManager(ListAllApprovedActivity.this);
         initUi();
     }
 
     private void initUi() {
         binding.allReqRecyclerView.setHasFixedSize(true);
-        adapter = new AllRequestAdapter(this, requestModelList, ListAllRequestActivity.this,ListAllRequestActivity.this);
+        adapter = new AllRequestAdapter(this, requestModelList, ListAllApprovedActivity.this,ListAllApprovedActivity.this);
         binding.allReqRecyclerView.setAdapter(adapter);
         getRequestedBooks();
     }
 
     private void getRequestedBooks() {
-        if (NetworkManager.isNetworkAvailable(ListAllRequestActivity.this)) {
+        if (NetworkManager.isNetworkAvailable(ListAllApprovedActivity.this)) {
             if (!requestModelList.isEmpty()) {
                 requestModelList.clear();
             }
@@ -79,7 +84,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
                                     model.setUserName(documentSnapshot.get("userName").toString());
                                     model.setStatus(documentSnapshot.get("status").toString());
 
-                                    if (model.getStatus().equals("request")) {
+                                    if (model.getStatus().equals("approved")) {
                                         requestModelList.add(model);
                                     }
 
@@ -92,7 +97,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
                                 } else {
                                     binding.allReqRecyclerView.setVisibility(View.GONE);
                                     binding.ivNoData.setVisibility(View.VISIBLE);
-                                    showToast(ListAllRequestActivity.this, "No requests available now");
+                                    showToast(ListAllApprovedActivity.this, "No Approved books available now");
                                 }
                             }
                         }
@@ -102,7 +107,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
                         public void onFailure(@NonNull Exception e) {
                             hideLoading();
                             Log.e("exception in request", String.valueOf(e));
-                            showToast(ListAllRequestActivity.this, getString(R.string.error));
+                            showToast(ListAllApprovedActivity.this, getString(R.string.error));
                         }
                     });
         } else
@@ -113,33 +118,42 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
 
     @Override
     public void onItemClick(int position) {
-        mPosition=position;
-        onDialogShow("Approve","Are sure to Approve ?");
-
+        Log.e("hit","onItemClick");
+//        RequestModel model = requestModelList.get(position);
 
     }
 
-    private void updateTable(RequestModel model) {
-        if (NetworkManager.isNetworkAvailable(this)) {
-            binding.containerNoInternet.setVisibility(View.GONE);
+
+
+    private void uploadToHistory(RequestModel uploadInfo) {
+        if (NetworkManager.isNetworkAvailable(ListAllApprovedActivity.this)) {
             showLoading(this);
-            String date = getCalculatedDate(model.getDate(), "dd-MMM-yy hh.mm aa", 21);
-            fb.collection("Request")
-                    .document(model.getDocID())
-                    .update("status", "approved", "date", date)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            Map<String, Object> user = new HashMap<>();
+            user.put("date", currentDate());
+            user.put("userId", sessionManager.getUserId());
+            user.put("bookId", uploadInfo.getBookId());
+            user.put("bookName", uploadInfo.getBookName());
+            user.put("userName", sessionManager.getUserName());
+            user.put("bookIdR", uploadInfo.getBookIdR());
+            user.put("status", "returned");
+
+
+            FirebaseFirestore fireStoreInstance = getFireStoreInstance();
+            fireStoreInstance.collection("History")
+                    .add(user)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
-                        public void onSuccess(Void unused) {
-                            hideLoading();
-                            showToast(ListAllRequestActivity.this, "Approved Successfully");
-                            getRequestedBooks();
+                        public void onSuccess(DocumentReference documentReference) {
+                            mDelete(uploadInfo.getDocID());
+                            showToast(ListAllApprovedActivity.this, "Returned Successfully");
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     hideLoading();
-                    Log.e("exception in request", String.valueOf(e));
-                    showToast(ListAllRequestActivity.this, getString(R.string.error));
+                    showToast(ListAllApprovedActivity.this, getString(R.string.error));
                 }
             });
         } else {
@@ -147,19 +161,42 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
         }
     }
 
-    @Override
-    public void onItemClick(int position, RequestModel model) {
+    private void mDelete(String path){
+
+
+
+        fb.collection("Request").document(path)
+                .delete()
+                .addOnCompleteListener((OnCompleteListener) task -> {
+                    Log.e("completed","complet"+task.isComplete());
+                    hideLoading();
+                    requestModelList.clear();
+                    getRequestedBooks();
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("exception in request", String.valueOf(e));
+                        showToast(ListAllApprovedActivity.this, getString(R.string.error));
+                    }
+                });
 
     }
+
+    @Override
+    public void onItemClick(int position, RequestModel model) {
+        Log.e("hit","onItemClick");
+        mModel=model;
+        onDialogShow("Return","Are you sure to Return ?");
+    }
     public void onDialogShow(String msg1, String msg2) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListAllRequestActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListAllApprovedActivity.this);
         builder.setTitle(msg1);
         builder.setMessage(msg2);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                RequestModel model = requestModelList.get(mPosition);
-                updateTable(model);
+                uploadToHistory(mModel);
                 dialogInterface.dismiss();
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

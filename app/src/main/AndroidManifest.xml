@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryManagment">
         <activity
+            android:name=".ui.admin.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.admin.ListAllApprovedActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.user.MyrequestActivity"
             android:exported="false" />
         <activity

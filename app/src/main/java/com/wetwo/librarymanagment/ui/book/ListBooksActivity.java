@@ -1,6 +1,8 @@
 package com.wetwo.librarymanagment.ui.book;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,13 +38,14 @@ import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityListBooksBinding;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.OnClickListener;
+import com.wetwo.librarymanagment.utils.onDialogYesClick;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListBooksActivity extends BaseActivity implements OnClickListener {
+public class ListBooksActivity extends BaseActivity implements OnClickListener, onDialogYesClick {
     private ActivityListBooksBinding binding;
     String Storage_Path = "library_book/";
     // Root Database Name for Firebase Database.
@@ -55,6 +59,9 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
     ProgressDialog progressDialog;
     // Creating List of ImageUploadInfo class.
     List<ImageUploadInfo> list = new ArrayList();
+    int  myRequest = 0;
+    int mPosition = 0;
+
     // Creating RecyclerView.Adapter.
     RecyclerView.Adapter adapter;
 
@@ -100,7 +107,13 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
                                                   Log.e("list size", String.valueOf(list.size()));
                                                   Intent i = new Intent(ListBooksActivity.this,
                                                           AddBookActivity.class);
-                                                  i.putExtra("id", list.size());
+                                                  if(list.isEmpty()){
+                                                      i.putExtra("id", 1);
+                                                  }
+                                                  else{
+                                                      i.putExtra("id", list.get(list.size()-1).getBookID() + 1);
+                                                  }
+
                                                   startActivity(i);
                                               }
                                           }
@@ -163,6 +176,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
     }
 
     private void compareBooks(List<RequestModel> requestList) {
+        myRequest=0;
         for (int i = 0; i < this.list.size(); i++) {
             for (int j = 0; j < requestList.size(); j++) {
                 if (list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
@@ -171,6 +185,13 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
                 }
             }
         }
+        for (int j = 0; j < requestList.size(); j++) {
+            if(sessionManager.getUserId().equals(requestList.get(j).getUserId())){
+                myRequest=myRequest+1;
+            }
+        }
+
+
         if (list.size() != 0) {
             hideLoading();
             binding.recyclerView.setVisibility(View.VISIBLE);
@@ -187,8 +208,17 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onItemClick(int position) {
-        ImageUploadInfo uploadInfo = list.get(position);
-        uploadToRequest(uploadInfo);
+        Log.e("size", String.valueOf(myRequest));
+        if(myRequest == 3 )
+        {
+            showSnackBar(binding.getRoot(),"your maximum limit is reached,Please return book to continue ");
+
+        }
+        else{
+
+        mPosition=position;
+            onDialogShow("Request Book","Are you sure to request this book ?");
+    }
     }
 
     /**
@@ -265,6 +295,31 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener {
         } else
             binding.containerNoInternet.setVisibility(View.VISIBLE);
         // showSnackBar(binding.getRoot(), getString(R.string.check_internet));
+
+    }
+
+    @Override
+    public void clicked() {
+
+    }
+
+    public void onDialogShow(String msg1, String msg2) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListBooksActivity.this);
+        builder.setTitle(msg1);
+        builder.setMessage(msg2);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ImageUploadInfo uploadInfo = list.get(mPosition);
+                uploadToRequest(uploadInfo);
+                dialogInterface.dismiss();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).show();
 
     }
 }

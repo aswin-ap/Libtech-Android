@@ -46,7 +46,18 @@ public class HomeActivity extends BaseActivity {
                 onLogOutPress();
             }
         });
-
+        binding.btnApproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ListAllApprovedActivity.class));
+            }
+        });
+        binding.btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+            }
+        });
     }
 
     public void onLogOutPress() {

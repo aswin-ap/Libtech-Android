@@ -2,6 +2,8 @@ package com.wetwo.librarymanagment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -9,8 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.wetwo.librarymanagment.ui.LoginActivity;
+import com.wetwo.librarymanagment.ui.admin.HomeActivity;
+import com.wetwo.librarymanagment.utils.onDialogYesClick;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     // This is for showing the progress
     Dialog mLoadingDialog;
+    onDialogYesClick yesClick;
 
 
     public void showLoading(Context context) {
@@ -82,5 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return null;
     }
+
+
 
 }

@@ -165,7 +165,7 @@ public class AddBookActivity extends BaseActivity {
         if (imageUri != null) {
 
             // Setting progressDialog Title.
-            progressDialog.setTitle("Image is Uploading...");
+            progressDialog.setTitle("Book is Uploading...");
 
             // Showing progressDialog.
             progressDialog.show();
@@ -190,7 +190,7 @@ public class AddBookActivity extends BaseActivity {
                             Log.e("img getName", "" + taskSnapshot.getMetadata().getPath());
 
                             // Showing toast message after done uploading.
-                            Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Book Uploaded Successfully ", Toast.LENGTH_LONG).show();
 
                             @SuppressWarnings("VisibleForTests")
                             ImageUploadInfo imageUploadInfo = new ImageUploadInfo
@@ -226,7 +226,7 @@ public class AddBookActivity extends BaseActivity {
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
 
                             // Setting progressDialog Title.
-                            progressDialog.setTitle("Image is Uploading...");
+                            progressDialog.setTitle("Book is Uploading...");
 
                         }
                     });

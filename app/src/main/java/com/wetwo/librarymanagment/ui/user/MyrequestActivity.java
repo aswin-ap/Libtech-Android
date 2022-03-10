@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.View;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ import com.wetwo.librarymanagment.data.model.ImageUploadInfo;
 import com.wetwo.librarymanagment.data.model.RequestModel;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityMyrequestBinding;
+import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 
 import com.wetwo.librarymanagment.utils.OnItemClickListener;
@@ -46,6 +49,7 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
     String Database_Path = "All_Image_Uploads_Database";
     ProgressDialog progressDialog;
     RecyclerView.Adapter adapter;
+    String mDocId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +205,28 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
     public void onItemClick(int position, String DocId) {
         showLoading(MyrequestActivity.this);
         Log.e("iddd", "firebase" + DocId);
-        mDelete(DocId);
+        mDocId=DocId;
+        onDialogShow("Delete Request","Are you sure to delete this BookRequest ? ");
+
+
+    }
+
+    public void onDialogShow(String msg1, String msg2) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MyrequestActivity.this);
+        builder.setTitle(msg1);
+        builder.setMessage(msg2);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mDelete(mDocId);
+                dialogInterface.dismiss();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).show();
 
     }
 }
