@@ -16,7 +16,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-       <!-- <ProgressBar
+        <!-- <ProgressBar
             android:id="@+id/avloadingIndicatorView"
             android:layout_width="95dp"
             android:layout_height="80dp"
@@ -24,13 +24,13 @@
             android:visibility="visible" />-->
 
         <com.github.ybq.android.spinkit.SpinKitView
-            style="@style/SpinKitView.Large.DoubleBounce"
             android:id="@+id/avloadingIndicatorView"
+            style="@style/SpinKitView.Large.Wave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="visible"
-            app:SpinKit_Color="@color/teal_200" />
+            app:SpinKit_Color="@color/purple_200" />
 
 
         <!--       <com.wang.avi.AVLoadingIndicatorView-->
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Please wait"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/tv_message"
                 android:text="..."
-                android:textColor="@color/color_loading"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
         </RelativeLayout>
 

@@ -17,7 +17,7 @@ import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityLoginBinding;
 import com.wetwo.librarymanagment.ui.admin.HomeActivity;
-import com.wetwo.librarymanagment.ui.user.MainHomeActivity;
+import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.Validation;
 
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                                             finish();
                                         }
                                         else{
-                                            Intent intent = new Intent(LoginActivity.this, MainHomeActivity.class);
+                                            Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
 
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             showToast(LoginActivity.this, "Login Successfully");

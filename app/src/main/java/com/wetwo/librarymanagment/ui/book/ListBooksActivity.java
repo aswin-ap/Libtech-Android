@@ -1,7 +1,6 @@
 package com.wetwo.librarymanagment.ui.book;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,7 +58,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
     ProgressDialog progressDialog;
     // Creating List of ImageUploadInfo class.
     List<ImageUploadInfo> list = new ArrayList();
-    int  myRequest = 0;
+    int myRequest = 0;
     int mPosition = 0;
 
     // Creating RecyclerView.Adapter.
@@ -90,6 +89,12 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
             adminStatus = false;
 
         }
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Assign FirebaseStorage instance to storageReference.
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -107,11 +112,10 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
                                                   Log.e("list size", String.valueOf(list.size()));
                                                   Intent i = new Intent(ListBooksActivity.this,
                                                           AddBookActivity.class);
-                                                  if(list.isEmpty()){
+                                                  if (list.isEmpty()) {
                                                       i.putExtra("id", 1);
-                                                  }
-                                                  else{
-                                                      i.putExtra("id", list.get(list.size()-1).getBookID() + 1);
+                                                  } else {
+                                                      i.putExtra("id", list.get(list.size() - 1).getBookID() + 1);
                                                   }
 
                                                   startActivity(i);
@@ -176,7 +180,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
     }
 
     private void compareBooks(List<RequestModel> requestList) {
-        myRequest=0;
+        myRequest = 0;
         for (int i = 0; i < this.list.size(); i++) {
             for (int j = 0; j < requestList.size(); j++) {
                 if (list.get(i).getFirebaseId().equals(requestList.get(j).getBookId())) {
@@ -186,8 +190,8 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
             }
         }
         for (int j = 0; j < requestList.size(); j++) {
-            if(sessionManager.getUserId().equals(requestList.get(j).getUserId())){
-                myRequest=myRequest+1;
+            if (sessionManager.getUserId().equals(requestList.get(j).getUserId())) {
+                myRequest = myRequest + 1;
             }
         }
 
@@ -209,16 +213,14 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
     @Override
     public void onItemClick(int position) {
         Log.e("size", String.valueOf(myRequest));
-        if(myRequest == 3 )
-        {
-            showSnackBar(binding.getRoot(),"your maximum limit is reached,Please return book to continue ");
+        if (myRequest == 3) {
+            showSnackBar(binding.getRoot(), "your maximum limit is reached,Please return book to continue ");
 
+        } else {
+
+            mPosition = position;
+            onDialogShow("Request Book", "Are you sure to request this book ?");
         }
-        else{
-
-        mPosition=position;
-            onDialogShow("Request Book","Are you sure to request this book ?");
-    }
     }
 
     /**

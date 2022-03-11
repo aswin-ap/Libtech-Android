@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-<RelativeLayout
-    android:layout_width="100dp"
-    android:layout_height="100dp">
-    <ProgressBar
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerInParent="true"
-        />
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center">
+
+            <ProgressBar
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/purple_700" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
 
         <LinearLayout
@@ -35,46 +39,67 @@
                 android:id="@+id/ImageNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="#000"
-                android:textSize="15sp" />
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="Mathematics for computer science" />
 
             <TextView
                 android:id="@+id/txt_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="15sp" />
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/captionColor"
+                android:textSize="15sp"
+                tools:text="Author : Jon Pierre Fortney" />
 
             <TextView
                 android:id="@+id/txt_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="15sp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/captionColor"
+                android:textSize="15sp"
+                tools:text="Category : IT" />
+
 
             <TextView
                 android:id="@+id/txt_available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/captionColor"
+                android:visibility="gone"
                 android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/txt_already_req"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:textColor="#f00"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:visibility="gone"
-                android:text="Book is not available"
-                android:textSize="15sp" />
+                android:text="Book is not available" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_request"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/purple_700"
                 android:fontFamily="@font/prociono"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:text="Request Book" />
+                android:text="Request Book"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

@@ -8,13 +8,12 @@ import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.ui.admin.HomeActivity;
-import com.wetwo.librarymanagment.ui.user.MainHomeActivity;
+import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 
 public class SplashActivity extends BaseActivity {
 
     private static final int SPLASH_SCREEN_TIME_OUT = 2000;
     private SessionManager sessionManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class SplashActivity extends BaseActivity {
                                 HomeActivity.class);
                     } else {
                         i = new Intent(SplashActivity.this,
-                                MainHomeActivity.class);
+                                UserHomeActivity.class);
                     }
                     startActivity(i);
                 } else {

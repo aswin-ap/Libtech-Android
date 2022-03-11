@@ -15,7 +15,7 @@ import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivitySignUpBinding;
-import com.wetwo.librarymanagment.ui.user.MainHomeActivity;
+import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.Validation;
 
@@ -90,7 +90,7 @@ public class SignUpActivity extends BaseActivity {
                             sessionManager.setLogin(true);
                             sessionManager.setUserName(binding.txtUname.getText().toString());
                             sessionManager.setDocumentId(documentReference.getId());
-                            Intent intent = new Intent(SignUpActivity.this, MainHomeActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this, UserHomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             showToast(SignUpActivity.this, "Registered Successfully");

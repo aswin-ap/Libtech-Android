@@ -78,6 +78,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return formattedDate;
     }
 
+    public String currentDateWithText() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
+        String formattedDate = dateFormat.format(calendar.getTime()).toString();
+        return formattedDate;
+    }
+
     public static String getCalculatedDate(String date, String dateFormat, int days) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat s = new SimpleDateFormat(dateFormat);
