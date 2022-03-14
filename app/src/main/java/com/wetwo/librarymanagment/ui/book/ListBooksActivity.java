@@ -309,6 +309,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListBooksActivity.this);
         builder.setTitle(msg1);
         builder.setMessage(msg2);
+        builder.setIcon(R.drawable.splash);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -319,6 +320,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                hideLoading();
                 dialogInterface.dismiss();
             }
         }).show();

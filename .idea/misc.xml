@@ -8,15 +8,19 @@
         <entry key="app/src/main/res/drawable/ic_account_circle_.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_arrow_back_ios.xml" value="0.1425" />
         <entry key="app/src/main/res/layout/activity_add_book.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/activity_book_detail.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/activity_list_all_request.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/activity_list_books.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_main_home.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_main_home.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/activity_myrequest.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.16" />
         <entry key="app/src/main/res/layout/all_request_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/book_listing_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/book_reqest_item.xml" value="0.22" />
         <entry key="app/src/main/res/layout/dialog_loading_layout.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_noo_internet.xml" value="0.18" />
         <entry key="app/src/main/res/layout/my_book_req_layout.xml" value="0.2" />
