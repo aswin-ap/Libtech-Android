@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.wetwo.librarymanagment.BaseActivity;
+import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityMainHomeBinding;
 import com.wetwo.librarymanagment.ui.LoginActivity;
@@ -47,6 +48,13 @@ public class UserHomeActivity extends BaseActivity {
             }
         });
 
+        binding.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, ProfileActivity.class));
+            }
+        });
+
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +67,7 @@ public class UserHomeActivity extends BaseActivity {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(UserHomeActivity.this);
         builder.setTitle("Logout ?");
         builder.setMessage("Are you sure want to Logout ?");
+        builder.setIcon(R.drawable.splash);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

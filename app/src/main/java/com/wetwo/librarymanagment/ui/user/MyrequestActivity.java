@@ -203,11 +203,9 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
 
     @Override
     public void onItemClick(int position, String DocId) {
-        showLoading(MyrequestActivity.this);
         Log.e("iddd", "firebase" + DocId);
         mDocId=DocId;
         onDialogShow("Delete Request","Are you sure to delete this BookRequest ? ");
-
 
     }
 
@@ -215,6 +213,7 @@ public class MyrequestActivity extends BaseActivity implements OnItemClickListen
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MyrequestActivity.this);
         builder.setTitle(msg1);
         builder.setMessage(msg2);
+        builder.setIcon(R.drawable.splash);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

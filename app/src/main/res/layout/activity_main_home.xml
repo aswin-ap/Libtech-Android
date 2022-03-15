@@ -34,6 +34,7 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/iv_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity=""
@@ -59,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:padding="25dp"
                 android:text="Libtech"
                 android:textColor="@color/white"
                 android:textSize="19sp"
@@ -97,7 +98,7 @@
             android:layout_below="@+id/tv_date"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="15dp"
+            app:cardCornerRadius="25dp"
             app:cardElevation="5dp">
 
             <LinearLayout
@@ -155,7 +156,7 @@
             android:layout_marginTop="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="15dp"
+            app:cardCornerRadius="25dp"
             app:cardElevation="5dp">
 
             <LinearLayout
@@ -167,7 +168,7 @@
                 android:weightSum="3">
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:layout_width="30dp"
                     android:layout_height="50dp"
                     android:layout_margin="16dp"
                     android:layout_weight="1"

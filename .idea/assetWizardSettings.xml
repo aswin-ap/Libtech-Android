@@ -308,7 +308,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/arrow_back_ios_new/baseline_arrow_back_ios_new_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/edit/baseline_edit_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -320,7 +320,7 @@
                           <map>
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="894b9d" />
-                            <entry key="outputName" value="ic_arrow_back_ios" />
+                            <entry key="outputName" value="ic_edit" />
                           </map>
                         </option>
                       </PersistentState>
