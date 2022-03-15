@@ -5,21 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/add_book" />
 
-    <ImageView
-        android:id="@+id/iv_no_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/no_data"
-        android:visibility="gone" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,9 +35,22 @@
             android:textColor="#000"
             android:textSize="21sp"
             android:textStyle="bold" />
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="50dp"
+            android:text="@string/add_book" />
 
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/iv_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_data"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

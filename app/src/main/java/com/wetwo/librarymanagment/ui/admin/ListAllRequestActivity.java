@@ -53,6 +53,12 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
         adapter = new AllRequestAdapter(this, requestModelList, ListAllRequestActivity.this,ListAllRequestActivity.this);
         binding.allReqRecyclerView.setAdapter(adapter);
         getRequestedBooks();
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getRequestedBooks() {

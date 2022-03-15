@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ListAllApprovedActivity extends BaseActivity implements OnClickListener, ReturnClick {
     private ActivityListAllApprovedBinding binding;
@@ -58,6 +59,12 @@ public class ListAllApprovedActivity extends BaseActivity implements OnClickList
         adapter = new AllRequestAdapter(this, requestModelList, ListAllApprovedActivity.this,ListAllApprovedActivity.this);
         binding.allReqRecyclerView.setAdapter(adapter);
         getRequestedBooks();
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getRequestedBooks() {
@@ -75,14 +82,14 @@ public class ListAllApprovedActivity extends BaseActivity implements OnClickList
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                     RequestModel model = new RequestModel();
-                                    model.setBookId(documentSnapshot.get("bookId").toString());
-                                    model.setDate(documentSnapshot.get("date").toString());
-                                    model.setUserId(documentSnapshot.get("userId").toString());
+                                    model.setBookId(Objects.requireNonNull(documentSnapshot.get("bookId")).toString());
+                                    model.setDate(Objects.requireNonNull(documentSnapshot.get("date")).toString());
+                                    model.setUserId(Objects.requireNonNull(documentSnapshot.get("userId")).toString());
                                     model.setDocID(documentSnapshot.getId());
                                     model.setBookIdR((Long) documentSnapshot.get("bookIdR"));
-                                    model.setBookName(documentSnapshot.get("bookName").toString());
-                                    model.setUserName(documentSnapshot.get("userName").toString());
-                                    model.setStatus(documentSnapshot.get("status").toString());
+                                    model.setBookName(Objects.requireNonNull(documentSnapshot.get("bookName")).toString());
+                                    model.setUserName(Objects.requireNonNull(documentSnapshot.get("userName")).toString());
+                                    model.setStatus(Objects.requireNonNull(documentSnapshot.get("status")).toString());
 
                                     if (model.getStatus().equals("approved")) {
                                         requestModelList.add(model);

@@ -47,6 +47,13 @@ public class HistoryActivity extends BaseActivity {
         adapter = new HistoryAdapter(this, mRequestModelList);
         binding.allReqRecyclerView.setAdapter(adapter);
         getRequestedBooks();
+
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getRequestedBooks() {

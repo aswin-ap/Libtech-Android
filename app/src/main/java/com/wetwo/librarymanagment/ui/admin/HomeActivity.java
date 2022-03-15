@@ -11,6 +11,8 @@ import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityHomeBinding;
 import com.wetwo.librarymanagment.ui.LoginActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
+import com.wetwo.librarymanagment.ui.user.ProfileActivity;
+import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 
 public class HomeActivity extends BaseActivity {
     private SessionManager sessionManager;
@@ -56,6 +58,12 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+            }
+        });
+        binding.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
             }
         });
     }
