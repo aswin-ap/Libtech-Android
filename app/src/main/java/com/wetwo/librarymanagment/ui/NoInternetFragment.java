@@ -1,5 +1,6 @@
 package com.wetwo.librarymanagment.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class NoInternetFragment extends Fragment {
             public void onClick(View view) {
                 if (NetworkManager.isNetworkAvailable(getContext())) {
                     binding.mainView.setVisibility(View.GONE);
+                    getActivity().recreate();
                 } else {
                     sb = Snackbar.make(view,getContext().getString(R.string.check_internet),Snackbar.LENGTH_SHORT);
                     sb.show();

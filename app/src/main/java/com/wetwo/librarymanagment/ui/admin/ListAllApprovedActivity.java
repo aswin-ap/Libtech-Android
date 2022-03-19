@@ -198,6 +198,7 @@ public class ListAllApprovedActivity extends BaseActivity implements OnClickList
     }
     public void onDialogShow(String msg1, String msg2) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListAllApprovedActivity.this);
+        builder.setIcon(R.drawable.splash);
         builder.setTitle(msg1);
         builder.setMessage(msg2);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

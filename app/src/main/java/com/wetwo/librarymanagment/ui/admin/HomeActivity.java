@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.wetwo.librarymanagment.BaseActivity;
+import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityHomeBinding;
-import com.wetwo.librarymanagment.ui.LoginActivity;
+import com.wetwo.librarymanagment.ui.auth.LoginActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 import com.wetwo.librarymanagment.ui.user.ProfileActivity;
-import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 
 public class HomeActivity extends BaseActivity {
     private SessionManager sessionManager;
@@ -70,6 +70,7 @@ public class HomeActivity extends BaseActivity {
 
     public void onLogOutPress() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(HomeActivity.this);
+        builder.setIcon(R.drawable.splash);
         builder.setTitle("Logout ?");
         builder.setMessage("Are you sure want to Logout ?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

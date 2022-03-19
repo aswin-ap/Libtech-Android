@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,7 +79,7 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
 
     private void initUi() {
 
-        showLoading(this);
+
         sessionManager = new SessionManager(ListBooksActivity.this);
         Log.e("sees name", sessionManager.getUserName());
         if (sessionManager.getUserName().equals("admin")) {
@@ -107,20 +108,29 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
 
     private void btnClick() {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View view) {
-                                                  Log.e("list size", String.valueOf(list.size()));
-                                                  Intent i = new Intent(ListBooksActivity.this,
-                                                          AddBookActivity.class);
-                                                  if (list.isEmpty()) {
-                                                      i.putExtra("id", 1);
-                                                  } else {
-                                                      i.putExtra("id", list.get(list.size() - 1).getBookID() + 1);
-                                                  }
+            @Override
+            public void onClick(View view) {
 
-                                                  startActivity(i);
-                                              }
-                                          }
+                if (NetworkManager.isNetworkAvailable(ListBooksActivity.this))
+                {
+                Log.e("list size", String.valueOf(list.size()));
+                Intent i = new Intent(ListBooksActivity.this,
+                        AddBookActivity.class);
+                if (list.isEmpty()) {
+                    i.putExtra("id", 1);
+                } else {
+                    i.putExtra("id", list.get(list.size() - 1).getBookID() + 1);
+                }
+
+                startActivity(i);
+            }
+                else
+                    Snackbar.make(view,ListBooksActivity.this.getString(R.string.check_internet),Snackbar.LENGTH_SHORT).show();
+                    binding.containerNoInternet.setVisibility(View.VISIBLE);
+
+
+        }
+                         }
         );
     }
 
@@ -145,38 +155,43 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
 
 
     private void getAllBooks() {
+        if (NetworkManager.isNetworkAvailable(ListBooksActivity.this))
+        {
+            showLoading(this);
+            // Setting up Firebase image upload folder path in databaseReference.
+            // The path is already defined in MainActivity.
+            databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
 
-        // Setting up Firebase image upload folder path in databaseReference.
-        // The path is already defined in MainActivity.
-        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
+            // Adding Add Value Event Listener to databaseReference.
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    list.clear();
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-        // Adding Add Value Event Listener to databaseReference.
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
+                        imageUploadInfo.setFirebaseId(postSnapshot.getKey());
+                        imageUploadInfo.setRequest(false);
+                        list.add(imageUploadInfo);
+                    }
 
-                    ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
-                    imageUploadInfo.setFirebaseId(postSnapshot.getKey());
-                    imageUploadInfo.setRequest(false);
-                    list.add(imageUploadInfo);
+                    Log.e("itt", "" + list);
+                    getRequestedBooks();
+                    // Hiding the progress dialog.
+//                progressDialog.dismiss();
                 }
 
-                Log.e("itt", "" + list);
-                getRequestedBooks();
-                // Hiding the progress dialog.
-//                progressDialog.dismiss();
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("itt", "" + databaseError);
+                    // Hiding the progress dialog.
+                    progressDialog.dismiss();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("itt", "" + databaseError);
-                // Hiding the progress dialog.
-                progressDialog.dismiss();
-
-            }
-        });
+                }
+            });
+        }
+        else
+            binding.containerNoInternet.setVisibility(View.VISIBLE);
     }
 
     private void compareBooks(List<RequestModel> requestList) {
@@ -313,9 +328,14 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                if (NetworkManager.isNetworkAvailable(ListBooksActivity.this)){
                 ImageUploadInfo uploadInfo = list.get(mPosition);
                 uploadToRequest(uploadInfo);
                 dialogInterface.dismiss();
+                }
+                else
+                    binding.containerNoInternet.setVisibility(View.VISIBLE);
+
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
@@ -326,4 +346,5 @@ public class ListBooksActivity extends BaseActivity implements OnClickListener, 
         }).show();
 
     }
+
 }

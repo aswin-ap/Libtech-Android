@@ -1,4 +1,4 @@
-package com.wetwo.librarymanagment.ui;
+package com.wetwo.librarymanagment.ui.auth;
 
 import androidx.annotation.NonNull;
 import android.content.Intent;

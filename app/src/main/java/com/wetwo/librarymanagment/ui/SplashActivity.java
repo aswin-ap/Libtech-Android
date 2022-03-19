@@ -8,6 +8,8 @@ import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.ui.admin.HomeActivity;
+import com.wetwo.librarymanagment.ui.auth.LoginActivity;
+import com.wetwo.librarymanagment.ui.auth.PreAuthActivity;
 import com.wetwo.librarymanagment.ui.user.UserHomeActivity;
 
 public class SplashActivity extends BaseActivity {
@@ -37,7 +39,7 @@ public class SplashActivity extends BaseActivity {
                     startActivity(i);
                 } else {
                     Intent i = new Intent(SplashActivity.this,
-                            LoginActivity.class);
+                            PreAuthActivity.class);
 
                     startActivity(i);
                 }

@@ -161,6 +161,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListAllRequestActivity.this);
         builder.setTitle(msg1);
         builder.setMessage(msg2);
+        builder.setIcon(R.drawable.splash);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

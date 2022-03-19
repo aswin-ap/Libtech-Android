@@ -11,7 +11,7 @@ import com.wetwo.librarymanagment.BaseActivity;
 import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityMainHomeBinding;
-import com.wetwo.librarymanagment.ui.LoginActivity;
+import com.wetwo.librarymanagment.ui.auth.LoginActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 
 public class UserHomeActivity extends BaseActivity {

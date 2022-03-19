@@ -89,44 +89,13 @@ public class AddBookActivity extends BaseActivity {
                 UploadImageFileToFirebaseStorage();
             }
         });
-        binding.title.setOnClickListener(new View.OnClickListener() {
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }});
 
 
-                // Setting up Firebase image upload folder path in databaseReference.
-                // The path is already defined in MainActivity.
-                databaseReference = FirebaseDatabase.getInstance().getReference(Storage_Path);
-
-                // Adding Add Value Event Listener to databaseReference.
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-
-                            ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
-
-                            list.add(imageUploadInfo);
-                        }
-
-                        Log.e("itt", "" + list);
-
-
-                        // Hiding the progress dialog.
-                        progressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("itt", "" + databaseError);
-                        // Hiding the progress dialog.
-                        progressDialog.dismiss();
-
-                    }
-                });
-            }
-        });
     }
 
     // Creating Method to get the selected image file Extension from File Path URI.
