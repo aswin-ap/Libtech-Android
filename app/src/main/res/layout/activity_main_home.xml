@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/purple_700"
     tools:context=".ui.admin.HomeActivity">
-
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container_no_internet"
+        android:name="com.wetwo.librarymanagment.ui.NoInternetFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
     <LinearLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
@@ -232,10 +237,5 @@
 
     </RelativeLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/container_no_internet"
-        android:name="com.wetwo.librarymanagment.ui.NoInternetFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+
 </RelativeLayout>
