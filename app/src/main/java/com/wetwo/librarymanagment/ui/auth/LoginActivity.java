@@ -88,6 +88,7 @@ public class LoginActivity extends BaseActivity {
                                         sessionManager.setUserId(documentSnapshot.get("userid").toString());
                                         sessionManager.setDocumentId(documentSnapshot.getId());
                                         sessionManager.setUserName(documentSnapshot.get("username").toString());
+                                        sessionManager.setMobile(documentSnapshot.get("mobile").toString());
                                         sessionManager.setLogin(true);
                                         Log.e("uname",documentSnapshot.get("username").toString());
                                         if (sessionManager.getUserName().equals("admin")){

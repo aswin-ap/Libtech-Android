@@ -27,11 +27,12 @@ import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 import com.wetwo.librarymanagment.utils.NetworkManager;
 import com.wetwo.librarymanagment.utils.OnClickListener;
 import com.wetwo.librarymanagment.utils.ReturnClick;
+import com.wetwo.librarymanagment.utils.ReturnRequestListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAllRequestActivity extends BaseActivity implements OnClickListener, ReturnClick {
+public class ListAllRequestActivity extends BaseActivity implements OnClickListener, ReturnClick, ReturnRequestListener {
     private SessionManager sessionManager;
     private ActivityListAllRequestBinding binding;
     List<RequestModel> requestModelList = new ArrayList();
@@ -50,7 +51,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
 
     private void initUi() {
         binding.allReqRecyclerView.setHasFixedSize(true);
-        adapter = new AllRequestAdapter(this, requestModelList, ListAllRequestActivity.this,ListAllRequestActivity.this);
+        adapter = new AllRequestAdapter(this, requestModelList, ListAllRequestActivity.this,ListAllRequestActivity.this, ListAllRequestActivity.this);
         binding.allReqRecyclerView.setAdapter(adapter);
         getRequestedBooks();
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
@@ -177,4 +178,7 @@ public class ListAllRequestActivity extends BaseActivity implements OnClickListe
         }).show();
 
     }
+
+    @Override
+    public void onClickReturnRequestListener(int position) { }
 }

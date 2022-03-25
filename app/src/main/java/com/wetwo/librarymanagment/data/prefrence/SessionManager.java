@@ -22,6 +22,7 @@ public class SessionManager {
     private static final String RESTAURANT = "restaurant";
     private static final String ADDRESS = "address";
     private static final String DOCUMENT_ID = "documentId";
+    private static final String MOBILE = "mobile";
 
     public SessionManager(Context context) {
         this.context = context;
@@ -42,6 +43,11 @@ public class SessionManager {
 
     public void setUserName(String name) {
         editor.putString(USERNAME, name);
+        editor.apply();
+    }
+
+    public void setMobile(String name) {
+        editor.putString(MOBILE, name);
         editor.apply();
     }
 
@@ -76,6 +82,8 @@ public class SessionManager {
     public String getDocumentId() {
         return shpref.getString(DOCUMENT_ID, "");
     }
+
+    public String getMobile() { return shpref.getString(MOBILE, ""); }
 
     public AddressModel getAddress() {
         Gson gson = new Gson();

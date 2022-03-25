@@ -15,6 +15,7 @@ import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.model.RequestModel;
 import com.wetwo.librarymanagment.utils.OnClickListener;
 import com.wetwo.librarymanagment.utils.ReturnClick;
+import com.wetwo.librarymanagment.utils.ReturnRequestListener;
 
 import java.util.List;
 
@@ -24,9 +25,10 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
     List<RequestModel> requestModelList;
     OnClickListener listener;
     ReturnClick returnClick;
+    ReturnRequestListener returnRequestListener;
 
 
-    public AllRequestAdapter(Context context, List<RequestModel> TempList, OnClickListener listener,ReturnClick returnClick) {
+    public AllRequestAdapter(Context context, List<RequestModel> TempList, OnClickListener listener, ReturnClick returnClick, ReturnRequestListener returnRequestListener) {
 
 
         this.requestModelList = TempList;
@@ -35,6 +37,7 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
 
         this.listener = listener;
         this.returnClick = returnClick;
+        this.returnRequestListener = returnRequestListener;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
         RequestModel requestModel = requestModelList.get(position);
         if (requestModel.getStatus().equals("approved")) {
             holder.approveButton.setText("Returned");
+            holder.btnRequestReturn.setVisibility(View.VISIBLE);
         }
 
         //set data to textview
@@ -63,13 +67,19 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
         holder.approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("req",requestModel.getStatus());
-                if(requestModel.getStatus().equals("approved")){
-                    returnClick.onItemClick(position,requestModel);
+                Log.e("req", requestModel.getStatus());
+                if (requestModel.getStatus().equals("approved")) {
+                    returnClick.onItemClick(position, requestModel);
+                } else {
+                    listener.onItemClick(position);
                 }
-                else{
-                 listener.onItemClick(position);
-            }}
+            }
+        });
+        holder.btnRequestReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               returnRequestListener.onClickReturnRequestListener(position);
+            }
         });
     }
 
@@ -82,7 +92,7 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvBookId, tvBookName, tvUsername, tvDate;
-        public MaterialButton approveButton;
+        public MaterialButton approveButton, btnRequestReturn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -94,6 +104,7 @@ public class AllRequestAdapter extends RecyclerView.Adapter<AllRequestAdapter.Vi
             tvDate = (TextView) itemView.findViewById(R.id.tv_date);
 
             approveButton = (MaterialButton) itemView.findViewById(R.id.btn_approve);
+            btnRequestReturn = (MaterialButton) itemView.findViewById(R.id.btn_request_return);
         }
     }
 }

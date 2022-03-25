@@ -51,6 +51,18 @@
                 android:textSize="15sp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_request_return"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:backgroundTint="@color/purple_700"
+                android:fontFamily="@font/prociono"
+                android:text="Request to return"
+                android:visibility="gone" />
+
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_approve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -11,6 +11,7 @@ import com.wetwo.librarymanagment.R;
 import com.wetwo.librarymanagment.data.prefrence.SessionManager;
 import com.wetwo.librarymanagment.databinding.ActivityHomeBinding;
 import com.wetwo.librarymanagment.ui.auth.LoginActivity;
+import com.wetwo.librarymanagment.ui.auth.PreAuthActivity;
 import com.wetwo.librarymanagment.ui.book.ListBooksActivity;
 import com.wetwo.librarymanagment.ui.user.ProfileActivity;
 
@@ -77,7 +78,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 sessionManager.clear();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(HomeActivity.this, PreAuthActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
