@@ -1,6 +1,7 @@
 package com.wetwo.librarymanagment.ui.user;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,7 @@ public class ProfileActivity extends BaseActivity {
         fb = getFireStoreInstance();
         sessionManager = new SessionManager(ProfileActivity.this);
         currentUserId = sessionManager.getUserId();
+        Log.d("currentUserId", currentUserId);
         binding.imageClose.setOnClickListener(v -> onBackPressed());
         binding.ivEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +106,13 @@ public class ProfileActivity extends BaseActivity {
         if (NetworkManager.isNetworkAvailable(ProfileActivity.this)) {
             showLoading(this);
             Map<String, Object> user = new HashMap<>();
-            user.put("name", binding.editName.getText().toString());
+            user.put("username", binding.editName.getText().toString());
             user.put("email", binding.editEmail.getText().toString());
             user.put("password", binding.tvPassword.getText().toString());
             user.put("mobile", binding.textMobile.getText().toString());
 
             FirebaseFirestore fireStoreInstance = getFireStoreInstance();
-            fireStoreInstance.collection("user")
+            fireStoreInstance.collection("User")
                     .document(sessionManager.getDocumentId())
                     .update(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

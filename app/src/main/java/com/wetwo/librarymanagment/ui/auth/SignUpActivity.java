@@ -86,7 +86,7 @@ public class SignUpActivity extends BaseActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             hideLoading();
-                            sessionManager.setUserId(uuId);
+                            sessionManager.setUserId("L"+result);
                             sessionManager.setLogin(true);
                             sessionManager.setUserName(binding.txtUname.getText().toString());
                             sessionManager.setDocumentId(documentReference.getId());

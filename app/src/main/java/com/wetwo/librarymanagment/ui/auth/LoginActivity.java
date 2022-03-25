@@ -1,11 +1,13 @@
 package com.wetwo.librarymanagment.ui.auth;
 
-import androidx.annotation.NonNull;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -90,21 +92,17 @@ public class LoginActivity extends BaseActivity {
                                         sessionManager.setUserName(documentSnapshot.get("username").toString());
                                         sessionManager.setMobile(documentSnapshot.get("mobile").toString());
                                         sessionManager.setLogin(true);
-                                        Log.e("uname",documentSnapshot.get("username").toString());
-                                        if (sessionManager.getUserName().equals("admin")){
+                                        Log.e("uname", documentSnapshot.get("username").toString());
+                                        if (sessionManager.getUserName().equals("admin")) {
+                                            showToast(LoginActivity.this, "Login Successfully");
                                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            showToast(LoginActivity.this, "Login Successfully");
                                             startActivity(intent);
-                                            finish();
-                                        }
-                                        else{
+                                            finishAffinity();
+                                        } else {
+                                            showToast(LoginActivity.this, "Login Successfully");
                                             Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
-
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            showToast(LoginActivity.this, "Login Successfully");
                                             startActivity(intent);
-                                            finish();
+                                            finishAffinity();
                                         }
 
                                     } else

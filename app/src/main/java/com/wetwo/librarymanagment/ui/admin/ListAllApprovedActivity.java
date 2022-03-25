@@ -252,7 +252,8 @@ public class ListAllApprovedActivity extends BaseActivity implements OnClickList
                         Toast.LENGTH_LONG).show();
                 ex.printStackTrace();
             }
-        }
+        } else
+            checkPermission();
     }
 
     @Override
